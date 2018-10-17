@@ -387,10 +387,11 @@ class Api extends CI_Controller {
 		}
 
 		$sql = 'SELECT
-					u.*, uv.`video`
+					u.*, uv.`video`, uf.`dated` is_friend
 				FROM
 									`users` u
 					LEFT OUTER JOIN	`user_videos` uv ON (u.`id`=uv.`user_id`)
+					LEFT OUTER JOIN	`user_friends` uf ON ((u.`id`=uf1.`a` AND if1.`b`=' . (int)$user->id . ') OR (u.`id`=uf1.`b` AND if1.`a`=' . (int)$user->id . '))
 				WHERE
 					' . ($gender ? 'u.`gender` = ' . ($gender == 1 ? '\'male\' AND' : '\'female\' AND' )  : '' ) . '
 					u.`id`  != ' . (int)$user->id . ' AND
@@ -409,22 +410,55 @@ class Api extends CI_Controller {
 		return true;
 	}
 
+
+	public function addFriend() {
+		$hash = $this->input->post('hash');
+		$friend  = $this->input->post('friend');
+		header('Content-Type: application/json');
+
+		if (!$hash) {
+			$result = ['code' => 400, 'message' => 'No hash passed'];
+			echo json_encode($result);
+			return false;
+		}
+		if (!$friend || !(int)$friend) {
+			$result = ['code' => 400, 'message' => 'No friend ID passed'];
+			echo json_encode($result);
+			return false;
+		}
+
+		$user = $this->getUserByHash($hash);
+		if (!$user) {
+			$result = ['code' => 403, 'message' => 'Incorrect auth hash'];
+			echo json_encode($result);
+			return false;
+		}
+		if ($friend == $user->id) {
+			$result = ['code' => 400, 'message' => 'You can`t be friends with yourself'];
+			echo json_encode($result);
+			return false;
+		}
+
+		// Have we request from friend?
+		$sql = 'SELECT COUNT(*) FROM `user_friend_requests` WHERE `user`=' . (int)$friend . ' AND `friend`=' . (int)$user->id;
+		$query = $this->db->query($sql);
+		$exists = $query->result_array();
+		if ($exists) {
+			$sql = 'INSERT INTO `user_friends` SET `a`=' . (int)$friend . ' AND `b`=' . (int)$user->id . ', `dated`=NOW()';
+			$this->db->query($sql);
+			$sql = 'DELETE FROM `user_friend_requests` WHERE `user`=' . (int)$friend . ' AND `friend`=' . (int)$user->id;
+			$query = $this->db->query($sql);
+		} else {
+			$sql = 'INSERT INTO `user_friend_requests` SET `user`=' . (int)$friend . ', `friend`=' . (int)$user->id . ', `dated`=NOW()';
+			$query = $this->db->query($sql);
+		}
+		$result = ['code' => 200, 'message' => 'Ok'];
+		echo json_encode($result);
+		return true;
+	}
+
 	private function getAuthorizedUser($type, $token, $data) {
 		$user = $this->getUserByExtId($type, $data['extid']);
-		/*
-		if (!$user && isset($data['email']) && $data['email']) {
-			$sql = 'SELECT * FROM `users` WHERE `email`=' . $this->db->escape($data['email']);
-			$query = $this->db->query($sql);
-			$user = $query->row();
-		}
-		//$user = $this->getUserByToken($type, $token);
-		/*
-		if (!$user && isset($data['email']) && $data['email']) {
-			$sql = 'SELECT * FROM `users` WHERE `email`=' . $this->db->escape($data['email']);
-			$query = $this->db->query($sql);
-			$user = $query->row();
-		}
-		*/
 		if (!$user) {
 			if (isset($data['email']) && $data['email']) {
 				$sql = 'SELECT * FROM `users` WHERE `email`=' . $this->db->escape($data['email']);

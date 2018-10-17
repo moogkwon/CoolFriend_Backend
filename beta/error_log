@@ -1,0 +1,2 @@
+[13-Oct-2018 09:43:30 UTC] PHP Fatal error:  Class 'REST_Controller' not found in /home/zonvoir/public_html/workspace/chat/application/controllers/Api.php on line 5
+[13-Oct-2018 09:43:33 UTC] PHP Fatal error:  Class 'REST_Controller' not found in /home/zonvoir/public_html/workspace/chat/application/controllers/Api.php on line 5

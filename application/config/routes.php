@@ -61,6 +61,7 @@ $route['v1/user/update']='api/update';
 $route['v1/user/upload-video']='api/uploadVideo';
 $route['v1/contacts/random']='api/random';
 $route['v1/contacts/selective']='api/selective';
+$route['v1/friend/add']='api/addFriend';
 
 $route['v1/user/check']='api/checkUser';
 $route['v1/user/disconnected']='api/userDisconnected';
@@ -68,7 +69,6 @@ $route['v1/call/start']='apiCall/callStart';
 $route['v1/call/accepted']='apiCall/callAccepted';
 $route['v1/call/rejected']='apiCall/callRejected';
 $route['v1/call/finished']='apiCall/callFinished';
-
 
 $route['login']='admin/login/index';
 $route['admin']='admin/admin/index';
