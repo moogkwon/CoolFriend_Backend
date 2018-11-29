@@ -1,0 +1,9 @@
+.sidebar-fixed .main, .sidebar-fixed .app-footer {
+    margin-left: 155px;
+}
+.sidebar-fixed .sidebar {
+    width: 160px;
+}
+.sidebar .nav{
+	width: 100%;
+}

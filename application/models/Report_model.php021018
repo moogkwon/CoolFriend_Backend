@@ -1,0 +1,27 @@
+<?php
+class Report_model extends CI_Model {
+	
+	public function getReports(){
+		$this->db->select(	"tbl_report.id, 
+							user.id AS userID,
+							user.activated AS activated,
+							user.first_name AS userName,
+							user.phone AS userPhone,
+							user.email AS userEmail,
+							user.avatar AS photoUrl_user,
+							reporter.first_name AS reporterName,
+							reporter.phone AS reporterPhone,
+							reporter.email AS reporterEmail,
+							reporter.avatar AS photoUrl_reporter,
+							report,
+							report_image,
+							tbl_report.created_at"
+					);
+		$this->db->from('tbl_report');
+		$this->db->join('users as reporter','reporter_id = reporter.id','inner');
+		$this->db->join('users as user','user_id = user.id','inner');
+		$query  = $this->db->get();
+		$result = $query->result();
+		return $result;
+	}
+}

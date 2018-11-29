@@ -55,24 +55,120 @@ class CI_Email {
 	 *
 	 * @var	string
 	 */
-	var    $useragent        = "CodeIgniter";
-    var    $mailpath        = "/usr/sbin/sendmail";    // Sendmail path
-    var    $protocol        = "smtp";    // mail/sendmail/smtp
-    var    $smtp_host        = "imap.trustedcc.com";        // SMTP Server.  Example: mail.earthlink.net
-    var    $smtp_user        = "captainhook@trustedcc.com";        // SMTP Username
-    var    $smtp_pass        = "captainhook";        // SMTP Password
-    var    $smtp_port        = "587";        // SMTP Port
-    var    $smtp_timeout    = 5;        // SMTP Timeout in seconds
-    var    $smtp_crypto    = "";        // SMTP Encryption. Can be null, tls or ssl.
-    var    $wordwrap        = TRUE;        // TRUE/FALSE  Turns word-wrap on/off
-    var    $wrapchars        = "76";        // Number of characters to wrap at.
-    var    $mailtype        = "html";    // text/html  Defines email formatting
-    var    $charset        = "utf-8";    // Default char set: iso-8859-1 or us-ascii
-    var    $multipart        = "mixed";    // "mixed" (in the body) or "related" (separate)
-    var    $alt_message    = '';        // Alternative message for HTML emails
-    var    $validate        = FALSE;    // TRUE/FALSE.  Enables email validation
-	var    $priority        = "3";        // Default priority (1 - 5)
+	public $useragent	= 'CodeIgniter';
+
+	/**
+	 * Path to the Sendmail binary.
+	 *
+	 * @var	string
+	 */
+	public $mailpath	= '/usr/sbin/sendmail';	// Sendmail path
+
+	/**
+	 * Which method to use for sending e-mails.
+	 *
+	 * @var	string	'mail', 'sendmail' or 'smtp'
+	 */
+	public $protocol	= 'mail';		// mail/sendmail/smtp
+
+	/**
+	 * STMP Server host
+	 *
+	 * @var	string
+	 */
+	public $smtp_host	= '';
+
+	/**
+	 * SMTP Username
+	 *
+	 * @var	string
+	 */
+	public $smtp_user	= '';
+
+	/**
+	 * SMTP Password
+	 *
+	 * @var	string
+	 */
+	public $smtp_pass	= '';
+
+	/**
+	 * SMTP Server port
+	 *
+	 * @var	int
+	 */
+	public $smtp_port	= 25;
+
+	/**
+	 * SMTP connection timeout in seconds
+	 *
+	 * @var	int
+	 */
+	public $smtp_timeout	= 5;
+
+	/**
+	 * SMTP persistent connection
+	 *
+	 * @var	bool
+	 */
 	public $smtp_keepalive	= FALSE;
+
+	/**
+	 * SMTP Encryption
+	 *
+	 * @var	string	empty, 'tls' or 'ssl'
+	 */
+	public $smtp_crypto	= '';
+
+	/**
+	 * Whether to apply word-wrapping to the message body.
+	 *
+	 * @var	bool
+	 */
+	public $wordwrap	= TRUE;
+
+	/**
+	 * Number of characters to wrap at.
+	 *
+	 * @see	CI_Email::$wordwrap
+	 * @var	int
+	 */
+	public $wrapchars	= 76;
+
+	/**
+	 * Message format.
+	 *
+	 * @var	string	'text' or 'html'
+	 */
+	public $mailtype	= 'text';
+
+	/**
+	 * Character set (default: utf-8)
+	 *
+	 * @var	string
+	 */
+	public $charset		= 'UTF-8';
+
+	/**
+	 * Alternative message (for HTML messages only)
+	 *
+	 * @var	string
+	 */
+	public $alt_message	= '';
+
+	/**
+	 * Whether to validate e-mail addresses.
+	 *
+	 * @var	bool
+	 */
+	public $validate	= FALSE;
+
+	/**
+	 * X-Priority header value.
+	 *
+	 * @var	int	1-5
+	 */
+	public $priority	= 3;			// Default priority (1 - 5)
 
 	/**
 	 * Newline character sequence.

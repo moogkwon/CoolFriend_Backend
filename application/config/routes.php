@@ -49,19 +49,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'home';
+$route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-
 $route['v1/user/login']='api/login';
-//$route['v1/user/status']='api/status';
-$route['v1/user/online']='api/online';
 $route['v1/user/update']='api/update';
 $route['v1/user/upload-video']='api/uploadVideo';
-$route['v1/contacts/random']='api/random';
 $route['v1/contacts/selective']='api/selective';
 $route['v1/friend/add']='api/addFriend';
+$route['v1/friend/remove']='api/removeFriend';
+$route['v1/friend/check']='api/checkFriend';
+$route['v1/friend/list']='api/listFriends';
 
 $route['v1/user/check']='api/checkUser';
 $route['v1/user/disconnected']='api/userDisconnected';
@@ -69,30 +68,6 @@ $route['v1/call/start']='apiCall/callStart';
 $route['v1/call/accepted']='apiCall/callAccepted';
 $route['v1/call/rejected']='apiCall/callRejected';
 $route['v1/call/finished']='apiCall/callFinished';
-
-$route['login']='admin/login/index';
-$route['admin']='admin/admin/index';
-
-//$route['login4']='admin/login/index';
-
-/*
-$route['login'] = 'client/login/login';
-$route['forgot_password'] = 'client/login/forgot_password';
-$route['register'] = 'client/login/register';
-$route['dashboard'] = 'client/airdrop';
-$route['profile'] = 'client/profile';
-$route['campaign'] = 'client/campaign';
-$route['submits'] = 'client/submits/index';
-$route['transaction'] = 'client/transaction/index';
-$route['logout'] = 'client/airdrop/logout';
-$route['login/reset_password/(:any)/(:any)'] = 'client/login/reset_password/$1/$2';
-$route['login/activate/(:any)/(:any)'] = 'client/login/activate/$1/$2';
-$route['profile_update'] = 'client/profile/update_profile';
-$route['grigory']='admin/login/index';
-$route['change_password']='client/profile/change_password';
-$route['admin_password'] = 'admin/User/profile';
-$route['change_admin_password'] = 'admin/User/change_password';*/
-
-
+$route['v1/call/complaint']='apiCall/addComplaint';
 
 $route['ref/(:any)'] = "home/ref/$1";
