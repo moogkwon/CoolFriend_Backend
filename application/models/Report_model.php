@@ -9,6 +9,7 @@ class Report_model extends CI_Model {
 							user.phone AS userPhone,
 							user.email AS userEmail,
 							user.avatar AS photoUrl_user,
+							user.gender AS gender,
 							reporter.first_name AS reporterName,
 							reporter.last_name AS reporterlName,
 							reporter.phone AS reporterPhone,
@@ -46,7 +47,7 @@ class Report_model extends CI_Model {
 		return $result;
 	}
 	public function mostReportedUsers(){
-		$this->db->select("c1.suspect,COUNT(c1.suspect) total,user.email email,user.blocked blocked,(SELECT count(message) FROM complaints c2 Where c1.suspect  = c2.suspect And c2.message = 'Person is mean') person_mean,(SELECT count(message) FROM complaints c2 Where c1.suspect  = c2.suspect And c2.message = 'Person is nude') person_nude,(SELECT count(message) FROM complaints c2 Where c1.suspect  = c2.suspect And c2.message = 'Inappropriate video profile ')  inappropriate");
+		$this->db->select("c1.suspect,COUNT(c1.suspect) total,user.email email,user.gender gender,user.blocked blocked,(SELECT count(message) FROM complaints c2 Where c1.suspect  = c2.suspect And c2.message = 'Person is mean') person_mean,(SELECT count(message) FROM complaints c2 Where c1.suspect  = c2.suspect And c2.message = 'Person is nude') person_nude,(SELECT count(message) FROM complaints c2 Where c1.suspect  = c2.suspect And c2.message = 'Inappropriate video profile ')  inappropriate");
 		$this->db->from('complaints c1');
 		$this->db->where('user.blocked',0);
 		$this->db->join('users as user','c1.suspect = user.id','inner');

@@ -11,6 +11,11 @@
 					</a>
 				</li>
 				<li class="nav-item nav-dropdown">
+					<a class="nav-link" href="<?php echo site_url('Admin/Users/BlockedUser'); ?>">
+						<i class="mdi mdi-account-minus"></i>Blocked Users 
+					</a>
+				</li>
+				<li class="nav-item nav-dropdown">
 					<a class="nav-link" href="<?php echo site_url('Admin/Report/'); ?>">
 						<i class="mdi mdi-rocket"></i>User Reports 
 					</a>
@@ -22,7 +27,7 @@
 				</li>
 				<li class="nav-item nav-dropdown">
 					<a class="nav-link" href="<?php echo site_url('Admin/Access/'); ?>">
-						<i class="mdi mdi-history"></i>Access History 
+						<i class="mdi mdi-history"></i>Random History 
 					</a>
 				</li>
 				<li class="nav-item nav-dropdown">
@@ -33,6 +38,16 @@
 				<li class="nav-item nav-dropdown">
 					<a class="nav-link" href="<?php echo site_url('Admin/Payment/'); ?>">
 						<i class="mdi mdi-currency-usd"></i>Payment History 
+					</a>
+				</li>
+				<li class="nav-item nav-dropdown">
+					<a class="nav-link" href="<?php echo site_url('Admin/Notifications/'); ?>">
+						<i class="mdi mdi-message-bulleted"></i>Notification Mgmt.
+					</a>
+				</li>
+				<li class="nav-item nav-dropdown">
+					<a class="nav-link" href="<?php echo site_url('Admin/Notifications/Filtered'); ?>">
+						<i class="mdi mdi-message-bulleted"></i>Filtered Notification
 					</a>
 				</li>
 				<!--li class="nav-item nav-dropdown">

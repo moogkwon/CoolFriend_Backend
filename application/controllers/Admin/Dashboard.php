@@ -30,7 +30,9 @@ class Dashboard extends CI_Controller {
 	}
 	public function index()
 	{
-		$this->load->view('Admin/Dashboard');
+		$data['last24hrs'] 		= $this->user_model->last24hrs_online_user();
+		$data['online_users'] 	= $this->user_model->online_users();
+		$this->load->view('Admin/Dashboard',$data);
 	}
 	public function Logout(){
 		$this->session->sess_destroy();

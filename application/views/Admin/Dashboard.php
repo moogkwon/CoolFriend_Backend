@@ -1,4 +1,5 @@
 <?php $this->load->view('elements/header'); ?>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <?php $this->load->view('elements/header_top'); ?>
     <!-- end header -->
     <div class="app-body">
@@ -14,220 +15,59 @@
             </ol>
             <div class="container-fluid">
                 <div class="animated fadeIn">
+                    <!-- end row -->
+					<div style="height: 20px;"></div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="ecom-widget-chart-full">
-                                <div class="chart-full-header">
-                                    <div class="header-text">
-                                        <div class="heading">Dashboard</div>
-                                    </div>
-                                   
-                                    <canvas class="chart-full-canvas" id="canvas-full-chart-light"></canvas>
-                                </div>
-                            </div>
-                            <!-- end ecom-widget-chart-full -->
-                        </div>
-                        <!-- end col -->
+						<div class="col-lg-6 text-center">
+							<div id="chart_div"></div>
+						</div>
+						<div class="col-lg-6">
+							<div class="col-md-12">
+								<div class="card card-accent-theme">
+									<div class="card-body">
+										<h4 class="text-theme"># of online users: <?php echo !empty($online_users)?count($online_users):0; ?></h4>
+										<p><small>Online users information.</small></p>
+										<br />
+										<table class="table-hover table-striped data_table_init" id="online_user_table" width="100%">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Country</th>
+													<th>City</th>
+													<th>State</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php if(!empty($online_users)) { ?>
+												<?php foreach($online_users as $online_user) { 
+												if($online_user->gender=='female'){
+												$color = 'color: red';
+												}else{
+												$color = '';
+												}
+												?>
+												<tr>
+													<td>
+														<a href="<?php echo site_url('Admin/Users/View/'.$online_user->id); ?>" style="<?php echo $color; ?>">
+															<?php echo $online_user->id; ?>
+														</a>
+													</td>
+													<td><?php echo $online_user->location_country; ?></td>
+													<td><?php echo $online_user->location_city; ?></td>
+													<td><?php echo $online_user->location_state; ?></td>
+												</tr>
+												<?php } } ?>
+											</tbody>
+										</table>
+									</div>
+									<!-- end card-body -->
+								</div>
+								<!-- end card -->
+								<!-- end card -->
+								<!-- end card -->
+							</div>
+						</div>
                     </div>
-                    <!-- end row -->
-                    <div class=" row row-margin-up">
-                        <div class="col-md-3">
-                            <div class="card ecom-widget-sales">
-                                <div class="card-body">
-                                    <div class="ecom-sales-icon text-center">
-                                        <i class="mdi mdi-cart-outline"></i>
-                                    </div>
-                                    <!-- end ecom-sales-icon -->
-                                    <h5 class="text-center">Sales</h5>
-                                    <ul>
-                                        <li>Completed
-                                            <span>276</span>
-                                        </li>
-                                        <li>Abondoned
-                                            <span>276</span>
-                                        </li>
-                                        <li>Tax(%)
-                                            <span>11%</span>
-                                        </li>
-                                        <li>Pending
-                                            <span class="badge badge-theme">5</span>
-                                        </li>
-                                        <li>Sales
-                                            <span>$ 200,125.12</span>
-                                        </li>
-                                    </ul>
-                                    <div class="text-center btn-tool-bar">
-                                        <button class="btn btn-theme ">More Details</button>
-                                    </div>
-                                    <!-- end btn-tool-bar -->
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end ecom-widget-sales -->
-                        </div>
-                        <!-- end col -->
-                        <div class="col-md-3 ">
-                            <div class="card ecom-widget-sales">
-                                <div class="card-body">
-                                    <div class="ecom-sales-icon text-center">
-                                        <i class="mdi mdi-currency-usd"></i>
-                                    </div>
-                                    <!-- end ecom-sales-icon -->
-                                    <h5 class="text-center">Orders</h5>
-                                    <ul>
-                                        <li>Completed
-                                            <span>276</span>
-                                        </li>
-                                        <li>Carts
-                                            <span>276</span>
-                                        </li>
-                                        <li>Tax(%)
-                                            <span>11%</span>
-                                        </li>
-                                        <li>Pending
-                                            <span class="badge badge-theme">5</span>
-                                        </li>
-                                        <li>Sales
-                                            <span>$ 200,125.12</span>
-                                        </li>
-                                    </ul>
-                                    <div class="text-center btn-tool-bar">
-                                        <button class="btn btn-theme ">More Details</button>
-                                    </div>
-                                    <!-- end btn-tool-bar -->
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- ecom-widget-sales -->
-                        </div>
-                        <!-- end col -->
-                        <div class="col-md-3 ">
-                            <div class="card ecom-widget-sales">
-                                <div class="card-body">
-                                    <div class="ecom-sales-icon text-center">
-                                        <i class="mdi mdi-cube-outline"></i>
-                                    </div>
-                                    <!-- end ecom-sales-icon -->
-                                    <h5 class="text-center">Deliver</h5>
-                                    <ul>
-                                        <li>Orders
-                                            <span>276</span>
-                                        </li>
-                                        <li>Abondoned
-                                            <span>276</span>
-                                        </li>
-                                        <li>Tax(%)
-                                            <span>11%</span>
-                                        </li>
-                                        <li>Pending
-                                            <span class="badge badge-theme">5</span>
-                                        </li>
-                                        <li>Sales
-                                            <span>$ 200,125.12</span>
-                                        </li>
-                                    </ul>
-                                    <div class="text-center btn-tool-bar">
-                                        <button class="btn btn-theme ">More Details</button>
-                                    </div>
-                                    <!-- end btn-tool-bar -->
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end ecom-widget-sales  -->
-                        </div>
-                        <!-- end col -->
-                        <div class="col-md-3 ">
-                            <div class="card ecom-widget-sales">
-                                <div class="card-body">
-                                    <div class="ecom-sales-icon text-center">
-                                        <i class="mdi mdi-fingerprint"></i>
-                                    </div>
-                                    <!-- end ecom-sales-icon -->
-                                    <h5 class="text-center">Orders</h5>
-                                    <ul>
-                                        <li>Completed
-                                            <span>276</span>
-                                        </li>
-                                        <li> Carts
-                                            <span>276</span>
-                                        </li>
-                                        <li>Tax(%)
-                                            <span>11%</span>
-                                        </li>
-                                        <li>Pending
-                                            <span class="badge badge-theme">5</span>
-                                        </li>
-                                        <li>Sales
-                                            <span>$ 200,125.12</span>
-                                        </li>
-                                    </ul>
-                                    <div class="text-center btn-tool-bar">
-                                        <button class="btn btn-theme ">More Details</button>
-                                    </div>
-                                    <!-- end btn-tool-bar -->
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end  ecom-widget-sales -->
-                        </div>
-                        <!-- end col -->
-                    </div>
-                    <!-- end row -->
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="card card-accent-theme users-count">
-                                <div class="card-body">
-                                    <i class="mdi mdi-account-circle"></i>
-                                    <div class="count">2564</div>
-                                    <div class="heading">Online</div>
-                                    <p class="text-disabled">Number of all Online Users Who have
-                                        <br />Logged into the Website at the moment</p>
-                                    <div class="row">
-                                        <div class="col-md-4  online-users">
-                                            <div class="count-small">2564</div>
-                                            <div class="heading-small">Online</div>
-                                        </div>
-                                        <!-- online-users -->
-                                        <div class="col-md-4 offline-users">
-                                            <div class="count-small">10256</div>
-                                            <div class="heading-small">Offline</div>
-                                        </div>
-                                        <!-- end offline-users -->
-                                        <div class="col-md-4 pending-users">
-                                            <div class="count-small">100</div>
-                                            <div class="heading-small">Pending</div>
-                                        </div>
-                                        <!-- end pending users -->
-                                    </div>
-                                    <!-- end inside row -->
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end card users-count -->
-                        </div>
-                        <!-- end col -->
-                        <div class="col-md-7">
-                            <div class=" card ecom-widget-chart card-accent-theme">
-                                <div class="card-body text-center">
-                                    <div class="header-tools">
-                                        <button class="btn btn-sm btn-secondary">Pending Users</button>
-                                        <button class="btn btn-sm btn-theme">New Users</button>
-                                        <button class="btn btn-sm btn-secondary">Online Users</button>
-                                    </div>
-                                    <div class="ecom-chart-text text-center">2145 new users</div>
-                                    <div class="chart-period text-center"> Aug 2017-oct 2017 </div>
-                                    <div class="text-center">
-                                        <canvas id="chart1" class="chart-canvas"></canvas>
-                                    </div>
-                                </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end ecom-widget-chart -->
-                        </div>
-                        <!-- end col -->
-                    </div>
-                    <!-- end row -->
-                        <!-- end col summery widget -->
                     <!-- end row -->
                 </div>
                 <!-- end animated fadeIn -->
@@ -238,3 +78,37 @@
     </div>
     <!-- end app-body -->
 	<?php $this->load->view('elements/footer'); ?>
+	<script>
+	google.charts.load('current', {'packages':['line']});
+	google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Hour');
+      data.addColumn('number', 'Online Users');
+      data.addRows([
+		<?php if(!empty($last24hrs)) { ?>
+		<?php foreach($last24hrs as $row) { ?>
+        [<?php echo $row->hrs; ?>,  <?php echo $row->total; ?> ],
+		<?php } ?>
+		<?php } ?>
+      ]);
+      var options = {
+        chart: {
+          title: 'Online User in last 24 hours',
+          subtitle: 'Number of user online',
+		  chxs: '0N*f0*',
+        },
+		vAxis: {
+			gridlines: { count: <?php echo $row->total+1; ?>}, 
+			viewWindow:{
+			  min: 0,
+			  max: <?php echo ($row->total % 2 == 0)?$row->total:$row->total+1; ?>
+			},
+		},
+        width: 570,
+        height: 400
+      };
+      var chart = new google.charts.Line(document.getElementById('chart_div'));
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+	</script>

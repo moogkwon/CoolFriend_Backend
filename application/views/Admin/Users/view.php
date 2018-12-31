@@ -72,9 +72,21 @@
 										<hr>
 										<!-- end clearfix -->
 										<div class="clearfix">
-											<div class="float-left">Age</div>
+											<div class="float-left">Gender</div>
 											<div class="float-right h5">
-												<?php echo $user->age; ?>
+												<div class="float-right h5">
+												<?php echo ucfirst($user->gender); ?>
+												</div>
+											</div>
+										</div>
+										<hr>
+										<!-- end clearfix -->
+										<div class="clearfix">
+											<div class="float-left">Birth year</div>
+											<div class="float-right h5">
+												<div class="float-right h5">
+												<?php echo $user->birthyear; ?>
+												</div>
 											</div>
 										</div>
 										<hr>
@@ -136,6 +148,34 @@
 													<?php echo count($in_coming)-count($in_coming_conn); ?>
 												</td>
 											</tr>
+											<tr>
+												<td>
+													Selective:          
+												</td>
+												<td>
+													<?php echo count($out_going_s); ?>
+												</td>
+												<td>
+													Selective:           
+												</td>
+												<td>
+													<?php echo count($in_coming_s); ?>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													Random:          
+												</td>
+												<td>
+													<?php echo count($out_going_r); ?>
+												</td>
+												<td>
+													Random:           
+												</td>
+												<td>
+													<?php echo count($in_coming_r); ?>
+												</td>
+											</tr>
 										</thead>
 									</table>
 									<hr>
@@ -158,6 +198,13 @@
 										<div class="float-left">Person is mean</div>
 										<div class="float-right h5">
 											<?php echo isset($reportee_count->person_mean)?$reportee_count->person_mean:0; ?>
+										</div>
+									</div>
+									<hr>
+									<div class="clearfix">
+										<div class="float-left">Inappropriate video profile</div>
+										<div class="float-right h5">
+											<?php echo isset($reportee_count->inappropriate)?$reportee_count->inappropriate:0; ?>
 										</div>
 									</div>
 									<hr>

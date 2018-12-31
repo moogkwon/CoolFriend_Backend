@@ -195,9 +195,9 @@ class ApiCall extends CI_Controller {
 				return false;
 		    }
 		} else {
-			$result = ['code' => 400, 'message' => 'No screenshot passed'];
-			echo json_encode($result);
-			return false;
+			//$result = ['code' => 400, 'message' => 'No screenshot passed'];
+			//echo json_encode($result);
+			//return false;
 		}
 
 		$sql = 'INSERT INTO `complaints` SET

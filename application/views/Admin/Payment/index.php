@@ -26,38 +26,51 @@
                                     <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable" width="100%">
                                         <thead>
                                              <tr>
-                                                <th>ID</th>
-                                                <th>Username</th>
-                                                <th>Cup Count</th>
-                                                <th>Price</th>
-                                                <th>Used</th>
-                                                <th>Purchased at</th>
+                                                <th>User ID</th>
+                                                <th>Email</th>
+                                                <th>Amount</th>
+                                                <th>Currency</th>
+                                                <th>Package</th>
+                                                <th>Duration</th>
+                                                <th>Date</th>
+                                                <th>Expiry</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 											<?php if(!empty($payments)) { 
 											 
 											?>
-												<?php foreach($payments as $key=>$payment) { ?>
+												<?php foreach($payments as $key=>$payment) { 
+												if($payment->gender == 'male'){
+													$style = 'color: blue';
+												}else{
+													$style = 'color: red';
+												}
+												?>
 													<tr>
-														
 														<td>
-															<?php echo $payment->id; ?>
+															<a href='<?php echo site_url('Admin/Users/View/'.$payment->user_id); ?>' style="<?php echo $style; ?>"><?php echo $payment->user_id; ?></a>
 														</td>
 														<td>
-															<?php echo $payment->Username;?>
+															<?php echo $payment->email;?>
 														</td>
 														<td>
-															<?php echo $payment->cup_count; ?>
+															<?php echo $payment->amount; ?>
 														</td>
 														<td>
-															<?php echo $payment->price; ?>
+															<?php echo $payment->currency; ?>
 														</td>
 														<td>
-															<?php echo $payment->used_cup; ?>
+															<?php echo $payment->package; ?>
 														</td>
 														<td>
-															<?php echo date('Y-m-d H:i:s',strtotime($payment->created_at)); ?>
+															<?php echo $payment->duration; ?>
+														</td>
+														<td>
+															<?php echo $payment->dated; ?>
+														</td>
+														<td>
+															<?php echo $payment->expire; ?>
 														</td>
 													</tr>
 												<?php } ?>

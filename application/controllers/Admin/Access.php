@@ -24,11 +24,12 @@ class Access extends CI_Controller {
 		}
 		$this->load->model('user_model');
 		$this->load->model('access_model');
+		$this->load->model('call_model');
 		$this->load->library('form_validation');
 	}
 	public function index()
 	{
-		$data['accesses'] = $this->access_model->getAccess();
+		$data['accesses'] = $this->call_model->getRandomCall();
 		$this->load->view('Admin/Access/index',$data);
 	}
 }

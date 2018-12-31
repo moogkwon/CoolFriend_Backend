@@ -54,10 +54,15 @@
 													$status = 'Block';
 													$class 	= 'btn-reject';
 												}
+												if($report->gender == 'female'){
+													$style = 'color: red';
+												}else{
+													$style = 'color: blue';
+												}
 												?>
 													<tr>
 														<td>
-															<a href="<?php echo site_url('Admin/Users/View/'.$report->userID); ?>"><?php echo $report->userID; ?></a>
+															<a href="<?php echo site_url('Admin/Users/View/'.$report->userID); ?>" style="<?php echo $style; ?>"><?php echo $report->userID; ?></a>
 														</td>
 														<td>
 															<a href="<?php echo $reportImage; ?>" class="image-popup-vertical-fit">

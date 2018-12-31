@@ -68,8 +68,12 @@ $return = shell_exec($cmd); */
 		$all_calls		= $this->call_model->userAllCalls($user_id);
 		$in_coming_conn	= $this->call_model->inComingConnected($user_id);
 		$in_coming		= $this->call_model->inComingCall($user_id);
+		$in_coming_s	= $this->call_model->inComingSelective($user_id);
+		$in_coming_r	= $this->call_model->inComingRandom($user_id);
 		$out_going_conn	= $this->call_model->outGoingConnected($user_id);
 		$out_going		= $this->call_model->outGoingCall($user_id);
+		$out_going_r	= $this->call_model->outGoingSelective($user_id);
+		$out_going_s	= $this->call_model->outGoingRandom($user_id);
 		/*  echo '<pre>'; print_r($reporteecount); echo '</pre>'; die(__FILE__.' On this line '.__LINE__);  */
 		if($user->video){
 			$video_url = 'https://s3.amazonaws.com/'.$this->s3Bucket.'/'.$user->video;
@@ -98,24 +102,29 @@ $return = shell_exec($cmd); */
 		$data['reports']			=  $reports;
 		$data['all_calls']			=  $all_calls;
 		$data['in_coming']			=  $in_coming;
+		$data['in_coming_s']		=  $in_coming_s;
+		$data['in_coming_r']		=  $in_coming_r;
 		$data['out_going']			=  $out_going;
+		$data['out_going_r']		=  $out_going_r;
+		$data['out_going_s']		=  $out_going_s;
 		$data['out_going_conn']		=  $out_going_conn;
 		$data['in_coming_conn']		=  $in_coming_conn;
 		$data['reportee_count']		=  $reporteecount;
 		$data['bucket']				=  $this->s3Bucket;
 		$this->load->view('Admin/Users/view',$data);
 	}
-	public function getData() {
+	public function getData(){
 		$this->load->library('s3');
         $search = $this->input->get("search")["value"];
         $order  = $this->input->get('order') [0];
         $start  = $this->input->get("start");
         $length = $this->input->get("length");
+        $blocked = $this->input->get("blocked");
 		
         $totalCount = $this->user_model->getTotalCount();
-        $filterCount = $this->user_model->getFilterCount($search);
+        $filterCount = $this->user_model->getFilterCount($search,$blocked);
 
-        $results = $this->user_model->getData($search, $order, $start, $length);
+        $results = $this->user_model->getData($search, $order, $start, $length,$blocked);
 
         $STATUS = array(
             0 => "<i class='fa fa-circle text-success'/>",
@@ -147,7 +156,11 @@ $return = shell_exec($cmd); */
 			}
 			$id = $result->id;
 			$view_url =  base_url('Admin/Users/View/'.$id);
-            $results [$index]->id = '<a href='.$view_url.'>'.$id.'</a>';
+			if($result->gender == 'female'){
+				$results [$index]->id = '<a style="color: red" href='.$view_url.'>'.$id.'</a>';
+			}else{
+				$results [$index]->id = '<a style="color: blue" href='.$view_url.'>'.$id.'</a>';
+			}
             $results [$index]->profile_picture = '<a href='.$profile_picture.' class="popup-ajax"><img src='.$profile_picture.' class="img-fluid" width="50px"></a>';
             $results [$index]->ig_username = $result->instagram;
             $results [$index]->username = $result->first_name;
@@ -155,7 +168,7 @@ $return = shell_exec($cmd); */
             $results [$index]->last_name = $result->last_name;
             $results [$index]->email = $result->email;
             $results [$index]->social = $result->social;
-            $results [$index]->birthday = $result->birthday;
+            $results [$index]->birthyear = $result->birthyear;
 
             $results [$index]->phoneNumber = $result->phone;
             $results [$index]->gender = $result->gender;
@@ -170,10 +183,14 @@ $return = shell_exec($cmd); */
 			}else{
 				$carteddate = '';
 			}
-			
+			if($result->video_rejected)
+			$view_v = 'Rejected';
+			else
+			$view_v = 'Reject Video';
+				
 			$asa = "onclick='deleteUser(".$id.")'";
             $results [$index]->created_at = $carteddate;
-            $results [$index]->videoshow = '<a href="javascript:void(0);" onclick="onShowModal(\'' . $video_url.'\')" class="show_v"><img src='.$video_thumb.' class="img-fluid1" height="50px"></a>';
+            $results [$index]->videoshow = '<a href="javascript:void(0);" onclick="onShowModal(\'' . $video_url.'\')" class="show_v"><img src='.$video_thumb.' class="img-fluid1" height="50px"></a><p><a href="javascript:void(0);" onclick="rejectVideo('.$id.');">'.$view_v.'</a></p>';
             $results [$index]->delete_user = '<a href="javascript:void(0);" '.$asa.'>Delete</a>';
         }
 
@@ -200,4 +217,12 @@ $return = shell_exec($cmd); */
         if ($id == 0)   return;
         $this->user_model->changeStatus($id, $status);
     }
+	public function rejectVideo($id = 0) {
+        if ($id == 0)   return;
+        $this->user_model->rejectVideo($id);
+    }
+	public function BlockedUser(){
+        $data['users'] = $this->user_model->getBlockedUser();
+		$this->load->view('Admin/Users/blocked',$data);
+	}
 }

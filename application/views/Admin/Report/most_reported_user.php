@@ -29,7 +29,7 @@
 												<th>The person is nude  </th>
 												<th>Person is mean</th>
 												<th>Inappropriate video profile</th>
-												<th>Other</th>
+												<th>Total</th>
 												<th>Action</th>
                                             </tr>
                                         </thead>
@@ -50,11 +50,16 @@
 													$status = 'Block';
 													$class 	= 'btn-reject';
 												}
-												$other = $report->total-($report->person_nude+$report->person_mean+$report->inappropriate);
+												$other = ($report->person_nude+$report->person_mean+$report->inappropriate);
+												if($report->gender == 'female'){
+													$style = 'color: red';
+												}else{
+													$style = 'color: blue';
+												}
 												?>
 													<tr>
 														<td>
-															<a href="<?php echo site_url('Admin/Users/View/'.$report->suspect); ?>"><?php echo $report->suspect; ?></a>
+															<a href="<?php echo site_url('Admin/Users/View/'.$report->suspect); ?>" style="<?php echo $style; ?>"><?php echo $report->suspect; ?></a>
 														</td>
 														<td>
 															<?php echo $report->total; ?>
@@ -142,7 +147,9 @@
 		$(document).ready(function(){
 			$('.rdataTable').DataTable( {
 				"order": [[ 0, "desc" ]],
-				 "scrollX": true
+				"scrollX": true,
+				"bLengthChange" : false,
+				"bPaginate": false,
 			} );
 			$(document).on('click','.btn-approve',function(){
                 changeStatus(this,$(this).attr("userid"), 0);

@@ -35,6 +35,14 @@ class User_model extends CI_Model {
 		$row 	= $query->row();
 		return $row;
 	}
+	public function getBlockedUser(){
+		$this->db->select('*');
+		$this->db->from('users');
+		$this->db->where('blocked',1);
+		$query 	= $this->db->get();
+		$row 	= $query->row();
+		return $row;
+	}
 	public function checkMyUsername($form){
 		$this->db->select('user_id');
 		$this->db->from($this->tblAdmin);
@@ -107,7 +115,7 @@ class User_model extends CI_Model {
         return $where;
     }
 
-    public function getFilterCount($search) {
+    public function getFilterCount($search,$blocked = 0) {
         $where = $this->getFilterCondition($search);
 
         $this->db->select("COUNT(id) AS 'count'");
@@ -115,6 +123,7 @@ class User_model extends CI_Model {
 		//$this->db->where('role_id',2);
         if ($where != "")
         $this->db->where($where);
+        $this->db->where('blocked',$blocked);
 		$result	= $this->db->get();
 		
         $result = $result->result();
@@ -134,7 +143,7 @@ class User_model extends CI_Model {
                             "last_name", 
                             "email", 
                             "social", 
-                            "birthday", 
+                            "birthyear", 
                             "gender", 
                             "lgbtq", 
                             "location_city", 
@@ -148,7 +157,7 @@ class User_model extends CI_Model {
         return $orderItems [$order ["column"] - 1];
     }
 
-    public function getData($search, $order, $start, $length) {
+    public function getData($search, $order, $start, $length,$blocked) {
         $where = $this->getFilterCondition($search);
 
         $this->db->select("users.*,users.video video_url,users.thumbnail video_thumb,user_auth.type social");
@@ -160,11 +169,13 @@ class User_model extends CI_Model {
 
         if ($where != "")
         $this->db->where($where);
+        $this->db->where('blocked',$blocked);
         
         if ($this->getOrder($order) != "")
         $this->db->order_by($this->getOrder($order), $order["dir"]);
 		else
         $this->db->order_by('id','desc');
+		if($length>0)
 		$this->db->limit($length, $start);
 		$result = $this->db->get();
 	//echo '<pre>'; print_r($this->db->last_query()); echo '</pre>'; die(__FILE__.' On this line '.__LINE__);
@@ -173,6 +184,11 @@ class User_model extends CI_Model {
 
     public function changeStatus($id, $status) {
         $this->db->set("blocked", $status)
+                ->where("id", $id)
+                ->update($this->tblName);
+    }
+	public function rejectVideo($id, $status = 0) {
+        $this->db->set("video_rejected", '1')
                 ->where("id", $id)
                 ->update($this->tblName);
     }
@@ -207,5 +223,22 @@ class User_model extends CI_Model {
 		$this->db->where('user_id',$user_id);
 		$this->db->delete('user_auth');
 		return true;
+	}
+	public function last24hrs_online_user(){
+		$this->db->select('hour(online_at) hrs,count(*) total');
+		$this->db->from('users');
+		$this->db->where('online_at > DATE_SUB(NOW(), INTERVAL 1 DAY)');
+		$this->db->group_by('hour(online_at)');
+		$query	= $this->db->get();
+		$rows 	= $query->result();
+		return $rows;
+	}
+	public function online_users(){
+		$this->db->select('*');
+		$this->db->from('users');
+		$this->db->where('online' ,'1');
+		$query	= $this->db->get();
+		$rows 	= $query->result();
+		return $rows;
 	}
 }

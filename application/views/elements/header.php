@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css'); ?>" />
     <!-- animate css -->
     <link rel="stylesheet" href="<?php echo base_url('assets/libs/animate.css/animate.min.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('assets/libs/editor-summernote/dist/summernote-lite.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('assets/libs/lightbox/magnific-popup.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('assets/libs/tables-datatables/dist/datatables.min.css'); ?>" />
     <!-- jquery-loading -->

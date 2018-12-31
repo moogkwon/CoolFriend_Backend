@@ -29,13 +29,14 @@
                                                 <!--th>PhoneNumber</th-->
                                                 <th>ID</th>
                                                 <th>Profile Picture</th>
+                                                <th>Video Profile</th>
                                                 <th>IG Username</th>
                                                 <th>User Name</th>
                                                 <th>First Name</th>
                                                 <th>Last Name</th>
                                                 <th>Email</th>
                                                 <th>Social</th>
-                                                <th>Birthday</th>
+                                                <th>Birth year</th>
                                                 <th>Gender</th>
                                                 <th>LGBTQ</th>
                                                 <th>City</th>
@@ -44,7 +45,6 @@
                                                 <th>Status</th>
                                                 <th>Action</th>
                                                 <th>Created at</th>
-                                                <th>Video Profile</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -97,7 +97,9 @@ var ajax_datatable;
         ajax_datatable = $("#Ajax_DataTables").dataTable({
             "processing": true,
             "serverSide": true,
-			"pageLength": 200,
+			/*"pageLength": 200,*/
+			"bLengthChange": false,
+			"bPaginate": false,
 			"lengthMenu": [ 200, 500, 1000 ],
 			/* "scrollY":        200,
 			"deferRender":    true,
@@ -110,7 +112,11 @@ var ajax_datatable;
 			],
 			"scrollX": true,
 			"order": [[ 0, "desc" ]],
-            "ajax": "<?=site_url()?>Admin/Users/getData",
+            "ajax": {
+						"url":"<?=site_url()?>Admin/Users/getData", "data": {
+								"blocked": 0
+						}
+				},
 			"drawCallback": function(){
 				  $('.popup-ajax').magnificPopup({
 					type: 'image',
@@ -125,13 +131,14 @@ var ajax_datatable;
                /* { "data": "phoneNumber" },*/
                 { "data": "id", "searchable": false},
                 { "data": "profile_picture" },
+                { "data": "videoshow" },
                 { "data": "ig_username" },
                 { "data": "username", "visible": false },
                 { "data": "first_name" },
                 { "data": "last_name" },
                 { "data": "email" },
                 { "data": "social" },
-                { "data": "birthday" },
+                { "data": "birthyear" },
                 { "data": "gender" },
                 { "data": "lgbtq" },
                 { "data": "city" },
@@ -140,7 +147,6 @@ var ajax_datatable;
                 { "data": "activated" },
                 { "data": "action" },
                 { "data": "created_at" },
-                { "data": "videoshow" },
                 { "data": "delete_user" ,"orderable": false},
             ]
         });
@@ -165,6 +171,16 @@ var ajax_datatable;
         });
     });
 })(window, document, window.jQuery);
+
+function rejectVideo(id) {
+    $.ajax({
+        url: "<?=site_url()?>Admin/Users/rejectVideo/" + id,
+        method: "POST",
+        success: function(data) {
+            ajax_datatable.fnClearTable();
+        }
+    })
+}
 
 function changeStatus(id, status) {
     $.ajax({
