@@ -90,19 +90,39 @@ class Notification_model extends CI_Model{
 		if(!empty($filter['type']))
 		$this->db->where('T1.type',$filter['type']);
 		$result	= $this->db->get();
+		
         $rows 	= $result->result();
 		return $rows;
     }
+	public function filterCheckUsers($form_data){
+		$this->db->select('id,first_name,last_name,gender,email,birthyear,lgbtq');
+		$this->db->from('users');
+		if(isset($form_data['user_ids'])&&count($form_data['user_ids']))
+		$this->db->where_in('id',$form_data['user_ids']);
+		$this->db->where('lgbtq',$form_data['lgbtq']=='yes'?'1':'0');
+		if(isset($form_data['gender'])&&!empty($form_data['gender']))
+		$this->db->where('gender',$form_data['gender']);
+		if(isset($form_data['birth_year_from'])&&!empty($form_data['birth_year_from'])&&isset($form_data['birth_year_to'])&&!empty($form_data['birth_year_to'])){
+			$this->db->where('birthyear >=', $form_data['birth_year_from']);
+			$this->db->where('birthyear <=', $form_data['birth_year_to']);
+		}
+		$query = $this->db->get();
+		///echo '<pre>'; print_r($this->db->last_query()); echo '</pre>'; die(__FILE__.' On this line '.__LINE__);
+
+		return $query->result();
+	}
 	public function insertFilteredNotification($form_data,$notis_data){
+		$user_ids 						= isset($form_data['checked_user'])?$form_data['checked_user']:0;
+		unset($form_data['user_ids']);
+		unset($form_data['checked_user']);
 		foreach($notis_data as $key=>$noti_data){
-			$user_ids 						= isset($form_data['user_ids'])?$form_data['user_ids']:0;
-			unset($form_data['user_ids']);
 			$form_data['notification_id'] 	= $noti_data->id;
 			$form_data['title'] 			= $noti_data->title;
 			$form_data['type'] 				= $noti_data->type;
 			$row 							= $this->checkFilterNoti($noti_data->id);
 			
 			if(isset($row->id)&&!empty($row->id)){
+				unset($form_data['created_date']);
 				$this->db->where('id',$row->id);
 				$this->db->update('filtered_notifications',$form_data);
 				$insert_id  = $row->id;
@@ -115,11 +135,14 @@ class Notification_model extends CI_Model{
 					$form_data1['user_id'] 					= $user_id;
 					$form_data1['notification_id'] 			= $form_data['notification_id'];
 					$form_data1['filtered_notification_id'] = $insert_id;
+					$form_data1['status'] = '0';
 					$this->insertUserForNoti($form_data1);
 				}
 			}
+			
 		}
-		return $res;
+		
+		return true;
 	}
 	public function checkFilterNoti($notification_id){
 		$this->db->select('*');

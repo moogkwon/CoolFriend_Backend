@@ -102,7 +102,7 @@
 			gridlines: { count: <?php echo $row->total+1; ?>}, 
 			viewWindow:{
 			  min: 0,
-			  max: <?php echo ($row->total % 2 == 0)?$row->total:$row->total+1; ?>
+			  max: <?php echo ($row->total % 2 == 0)?$row->total+2:$row->total+1; ?>
 			},
 		},
         width: 570,

@@ -55,7 +55,7 @@
                         <div class="col-md-12">
                             <div class="card card-accent-theme">
                                 <div class="card-body">
-									<form action="<?php echo site_url('Admin/Notifications'); ?>" method="post" class="form-horizontal">
+									<form action="<?php echo site_url('Admin/Notifications/Confirm'); ?>" method="get" class="form-horizontal">
 									<input type="hidden" name="search" value="true" />
                                         <div class="form-group row">
 											<div class="col-md-6">
